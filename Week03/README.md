@@ -2,4 +2,5 @@
 
 # week 03
 
-- tell me about code
+- a simple one view swiftui app that contains a button and generates presents on screen when clicked. 
+- understanding the basics of swiftui
