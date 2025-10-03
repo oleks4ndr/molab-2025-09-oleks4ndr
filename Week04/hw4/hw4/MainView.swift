@@ -2,7 +2,7 @@
 //  MainView.swift
 //  hw4
 //
-//  Created by Oleksandr Anyshchenko on 03/10/2025.
+//  Created by Oleksandr A on 03/10/2025.
 //
 
 import SwiftUI
