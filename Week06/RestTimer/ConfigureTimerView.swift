@@ -5,30 +5,51 @@ import SwiftUI
 struct ConfigureTimerView: View {
     // same instance used by TimerView
     let timerObject: TimerObject
-
+    @Binding var selectedTab: MainView.Tab
+    
     // states for user input
     @State private var minutes: Int
     @State private var seconds: Int
     @State private var sets: Int
     @State private var color: Color
     @AppStorage("useDarkMode") private var useDarkMode: Bool = false
-
-    init(timerObject: TimerObject) {
+    
+    
+    init(timerObject: TimerObject, selectedTab: Binding<MainView.Tab>) {
         self.timerObject = timerObject
+        self._selectedTab = selectedTab
+        
         _minutes = State(initialValue: timerObject.timerLength / 60)
         _seconds = State(initialValue: timerObject.timerLength % 60)
         _sets = State(initialValue: timerObject.originalSets)
         _color = State(initialValue: timerObject.timerColor)
     }
+    
+    
 
     var body: some View {
         NavigationStack {
             Form {
+                //                Section("Duration") {
+                //                    Stepper("Minutes: \(minutes)", value: $minutes, in: 0...180)
+                //                    Stepper("Seconds: \(seconds)", value: $seconds, in: 0...59)
+                //                    Text("Total: \(displayTime(minutes * 60 + seconds))")
+                //                        .foregroundStyle(.secondary)
+                //                }
                 Section("Duration") {
-                    Stepper("Minutes: \(minutes)", value: $minutes, in: 0...180)
-                    Stepper("Seconds: \(seconds)", value: $seconds, in: 0...59)
-                    Text("Total: \(displayTime(minutes * 60 + seconds))")
-                        .foregroundStyle(.secondary)
+                    VStack(spacing: 12) {
+                        HStack {
+                            UnitWheel(title: "min", range: 0...59, value: $minutes)
+                            UnitWheel(title: "sec", range: 0...59,  value: $seconds)
+                        }
+                        .frame(height: 160) // shows a few rows; adjust to taste
+
+                        Text("Total: \(displayTime(minutes * 60 + seconds))")
+                            .foregroundStyle(.secondary)
+                            .font(.callout)
+                    }
+                    // Optional: make it feel like a single, centered control in Forms
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
 
                 Section("Sets") {
@@ -40,21 +61,39 @@ struct ConfigureTimerView: View {
                     Toggle("Dark Mode", isOn: $useDarkMode)
                 }
 
-                Section {
-                    Button(role: .none) {
-                        applyChanges()
-                    } label: {
-                        Label("Save Settings", systemImage: "checkmark.circle.fill")
-                    }
-
-                    Button(role: .destructive) {
-                        discardChanges()
-                    } label: {
-                        Label("Discard Changes", systemImage: "xmark.circle")
-                    }
-                }
+//                Section {
+//                    Button(role: .none) {
+//                        applyChanges()
+//                    } label: {
+//                        Label("Save Settings", systemImage: "checkmark.circle.fill")
+//                    }
+//
+//                    Button(role: .destructive) {
+//                        discardChanges()
+//                    } label: {
+//                        Label("Discard Changes", systemImage: "xmark.circle")
+//                    }
+//                }
             }
             .navigationTitle("Configure Timer")
+            .toolbar {
+                // top left reset button
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Reset") {
+                        discardChanges()
+                    }
+                    .tint(.red)
+                }
+                // top right save button
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        applyChanges()
+                        selectedTab = .timer // go back to timer after saved
+                    }
+                    .tint(.blue)
+                    .keyboardShortcut(.defaultAction) // Return key triggers Save
+                }
+            }
         }
     }
 
@@ -83,6 +122,39 @@ struct ConfigureTimerView: View {
     }
 }
 
+// unit wheel for picking duration
+private struct UnitWheel: View {
+    let title: String
+    let range: ClosedRange<Int>
+    @Binding var value: Int
+    private let squeeze: CGFloat = 4 // tight join between digits + label
+
+    var body: some View {
+        HStack(spacing: -squeeze) {
+            Picker("", selection: $value) {
+                ForEach(range, id: \.self) { n in
+                    HStack {
+                        Spacer()
+                        Text("\(n)")
+                            .monospacedDigit()
+                            .multilineTextAlignment(.trailing)
+                            .padding(squeeze*2)
+                    }
+                    .tag(n)
+                }
+            }
+            .labelsHidden()
+            .pickerStyle(.wheel)      // ensures the classic spinning wheel
+            .frame(width: 110)        // tune per your layout
+            .clipped()
+
+            Text(title)
+                .fontWeight(.bold)
+        }
+    }
+}
+
 #Preview {
-    ConfigureTimerView(timerObject: TimerObject(timerColor: .blue, length: 75, sets: 3))
+    ConfigureTimerView(timerObject: TimerObject(timerColor: .blue, length: 75, sets: 3),
+                       selectedTab: .constant(.timer))
 }

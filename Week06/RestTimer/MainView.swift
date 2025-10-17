@@ -7,20 +7,23 @@
 import SwiftUI
 
 struct MainView: View {
+    enum Tab: Hashable { case timer, config }
+
     @State private var timerObject = TimerObject(timerColor: .black, length: 60, sets: 3)
+    @State private var selectedTab: Tab = .timer
+    
     @Environment(\.colorScheme) private var scheme
     @AppStorage("useDarkMode") private var useDarkMode: Bool = false
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             RestTimerView(timerObject: timerObject)
-                .tabItem {
-                    Label("Rest Timer", systemImage: "timer")
-                }
+                .tabItem { Label("Rest Timer", systemImage: "timer") }
+                .tag(Tab.timer)
             
-            ConfigureTimerView(timerObject: timerObject)
-                .tabItem {
-                    Label("Configure", systemImage: "gearshape")
-                }
+            ConfigureTimerView(timerObject: timerObject, selectedTab: $selectedTab)
+                .tabItem { Label("Configure", systemImage: "gearshape") }
+                .tag(Tab.config)
+            
             
         }
         .preferredColorScheme(useDarkMode ? .dark : .light)
