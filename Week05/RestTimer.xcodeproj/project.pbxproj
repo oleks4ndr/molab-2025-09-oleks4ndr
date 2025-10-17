@@ -6,19 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		11BDDE2D2E86CFB2001B89DE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 11BDDE2C2E86CFB2001B89DE /* README.md */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		11BDDE062E86C8F2001B89DE /* hw4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hw4.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		11BDDE2C2E86CFB2001B89DE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
+		11BDDE062E86C8F2001B89DE /* RestTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		11E970442E9029AA005EA94A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		11BDDE082E86C8F2001B89DE /* hw4 */ = {
+		11BDDE082E86C8F2001B89DE /* RestTimer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = hw4;
+			path = RestTimer;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -37,8 +33,8 @@
 		11BDDDFD2E86C8F2001B89DE = {
 			isa = PBXGroup;
 			children = (
-				11BDDE2C2E86CFB2001B89DE /* README.md */,
-				11BDDE082E86C8F2001B89DE /* hw4 */,
+				11E970442E9029AA005EA94A /* README.md */,
+				11BDDE082E86C8F2001B89DE /* RestTimer */,
 				11BDDE072E86C8F2001B89DE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,7 +42,7 @@
 		11BDDE072E86C8F2001B89DE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				11BDDE062E86C8F2001B89DE /* hw4.app */,
+				11BDDE062E86C8F2001B89DE /* RestTimer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -54,9 +50,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		11BDDE052E86C8F2001B89DE /* hw4 */ = {
+		11BDDE052E86C8F2001B89DE /* RestTimer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 11BDDE112E86C8F2001B89DE /* Build configuration list for PBXNativeTarget "hw4" */;
+			buildConfigurationList = 11BDDE112E86C8F2001B89DE /* Build configuration list for PBXNativeTarget "RestTimer" */;
 			buildPhases = (
 				11BDDE022E86C8F2001B89DE /* Sources */,
 				11BDDE032E86C8F2001B89DE /* Frameworks */,
@@ -67,13 +63,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				11BDDE082E86C8F2001B89DE /* hw4 */,
+				11BDDE082E86C8F2001B89DE /* RestTimer */,
 			);
-			name = hw4;
+			name = RestTimer;
 			packageProductDependencies = (
 			);
 			productName = hw4;
-			productReference = 11BDDE062E86C8F2001B89DE /* hw4.app */;
+			productReference = 11BDDE062E86C8F2001B89DE /* RestTimer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -91,7 +87,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 11BDDE012E86C8F2001B89DE /* Build configuration list for PBXProject "hw4" */;
+			buildConfigurationList = 11BDDE012E86C8F2001B89DE /* Build configuration list for PBXProject "RestTimer" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -105,7 +101,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				11BDDE052E86C8F2001B89DE /* hw4 */,
+				11BDDE052E86C8F2001B89DE /* RestTimer */,
 			);
 		};
 /* End PBXProject section */
@@ -115,7 +111,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11BDDE2D2E86CFB2001B89DE /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,7 +317,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		11BDDE012E86C8F2001B89DE /* Build configuration list for PBXProject "hw4" */ = {
+		11BDDE012E86C8F2001B89DE /* Build configuration list for PBXProject "RestTimer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				11BDDE0F2E86C8F2001B89DE /* Debug */,
@@ -331,7 +326,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		11BDDE112E86C8F2001B89DE /* Build configuration list for PBXNativeTarget "hw4" */ = {
+		11BDDE112E86C8F2001B89DE /* Build configuration list for PBXNativeTarget "RestTimer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				11BDDE122E86C8F2001B89DE /* Debug */,
