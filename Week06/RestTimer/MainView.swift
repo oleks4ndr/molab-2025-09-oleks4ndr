@@ -23,8 +23,6 @@ struct MainView: View {
             ConfigureTimerView(timerObject: timerObject, selectedTab: $selectedTab)
                 .tabItem { Label("Configure", systemImage: "gearshape") }
                 .tag(Tab.config)
-            
-            
         }
         .preferredColorScheme(useDarkMode ? .dark : .light)
         .onAppear {
