@@ -12,6 +12,7 @@ struct ConfigureTimerView: View {
     @State private var seconds: Int
     @State private var sets: Int
     @State private var colorTheme: ColorTheme
+    @State private var ringtone: Ringtone
     @AppStorage("useDarkMode") private var useDarkMode: Bool = false
     @Environment(\.colorScheme) private var scheme
     
@@ -24,6 +25,7 @@ struct ConfigureTimerView: View {
         _seconds = State(initialValue: timerObject.timerLength % 60)
         _sets = State(initialValue: timerObject.originalSets)
         _colorTheme = State(initialValue: timerObject.colorTheme)
+        _ringtone = State(initialValue: timerObject.ringtone)
     }
     
     
@@ -71,6 +73,19 @@ struct ConfigureTimerView: View {
                         }
                     }
                 }
+                
+                Section("Ringtone") {
+                    Picker("End of Timer Sound", selection: $ringtone) {
+                        ForEach(Ringtone.allCases) { tone in
+                            Text(tone.rawValue).tag(tone)
+                        }
+                    }
+                    
+                    Button("Preview Sound") {
+                        timerObject.ringtone = ringtone
+                        timerObject.playRingtone()
+                    }
+                }
 
 //                Section {
 //                    Button(role: .none) {
@@ -114,6 +129,7 @@ struct ConfigureTimerView: View {
         let total = max(1, minutes * 60 + seconds)
         timerObject.timerLength = total
         timerObject.colorTheme = colorTheme
+        timerObject.ringtone = ringtone
         let effectiveScheme = useDarkMode ? ColorScheme.dark : scheme
         timerObject.updateColor(for: effectiveScheme)
         timerObject.originalSets = max(1, sets)
@@ -126,6 +142,7 @@ struct ConfigureTimerView: View {
         seconds = timerObject.timerLength % 60
         sets = timerObject.originalSets
         colorTheme = timerObject.colorTheme
+        ringtone = timerObject.ringtone
     }
 
     private func displayTime(_ totalSeconds: Int) -> String {
@@ -157,8 +174,8 @@ private struct UnitWheel: View {
                 }
             }
             .labelsHidden()
-            .pickerStyle(.wheel)      // ensures the classic spinning wheel
-            .frame(width: 110)        // tune per your layout
+            .pickerStyle(.wheel)      
+            .frame(width: 110)
             .clipped()
 
             Text(title)

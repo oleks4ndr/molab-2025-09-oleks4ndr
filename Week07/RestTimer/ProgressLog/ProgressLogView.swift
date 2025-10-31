@@ -10,6 +10,7 @@ import SwiftUI
 struct ProgressLogView: View {
     @State private var logStore = ProgressLogStore()
     @State private var showingAddLog = false
+    @State private var editMode: EditMode = .inactive
     
     var body: some View {
         NavigationStack {
@@ -40,6 +41,14 @@ struct ProgressLogView: View {
             }
             .navigationTitle("Progress Log")
             .toolbar {
+                // top left edit button
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(editMode.isEditing ? "Done" : "Edit") {
+                        editMode = editMode.isEditing ? .inactive : .active
+                    }
+                    .disabled(logStore.logs.isEmpty == true)
+                }
+                // top right
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showingAddLog = true
@@ -52,6 +61,7 @@ struct ProgressLogView: View {
             .sheet(isPresented: $showingAddLog) {
                 AddProgressLogView(logStore: logStore)
             }
+            .environment(\.editMode, $editMode)
         }
     }
     

@@ -1,4 +1,25 @@
 import SwiftUI
+import AVFoundation
+
+enum Ringtone: String, CaseIterable, Identifiable {
+    case bell = "Bell"
+    case chime = "Chime"
+    case ding = "Ding"
+    case buzz = "Buzz"
+    case alarm = "Alarm"
+    
+    var id: String { rawValue }
+    
+    var systemSoundID: SystemSoundID {
+        switch self {
+        case .bell: return 1013 // Glass.caf
+        case .chime: return 1014 // Anticipate.caf
+        case .ding: return 1015 // Bloom.caf
+        case .buzz: return 1016 // Calypso.caf
+        case .alarm: return 1005 // New Mail.caf
+        }
+    }
+}
 
 enum ColorTheme: String, CaseIterable, Identifiable {
     case monochrome = "Monochrome"
@@ -40,6 +61,11 @@ class TimerObject {
             UserDefaults.standard.set(colorTheme.rawValue, forKey: "colorTheme")
         }
     }
+    var ringtone: Ringtone {
+        didSet {
+            UserDefaults.standard.set(ringtone.rawValue, forKey: "ringtone")
+        }
+    }
     var setsRemaining: Int
     var timeElapsed = 0
     var isTimerRunning = false
@@ -68,9 +94,12 @@ class TimerObject {
         let savedSets   = UserDefaults.standard.object(forKey: "originalSets") as? Int
         let savedThemeString = UserDefaults.standard.string(forKey: "colorTheme")
         let savedTheme = savedThemeString.flatMap { ColorTheme(rawValue: $0) } ?? colorTheme
+        let savedRingtoneString = UserDefaults.standard.string(forKey: "ringtone")
+        let savedRingtone = savedRingtoneString.flatMap { Ringtone(rawValue: $0) } ?? .bell
         
         self.colorTheme = savedTheme
         self.timerColor = savedTheme.color(for: .light) // will be updated by updateColor
+        self.ringtone = savedRingtone
         self.timerLength = savedLength ?? length
         self.originalSets = savedSets ?? sets
         self.setsRemaining = savedSets ?? sets
@@ -113,6 +142,7 @@ class TimerObject {
             guard let self else { return }
             self.timeElapsed = min(Int(Date().timeIntervalSince1970 - self.timerStartEpoch), self.timerLength)
             if self.timeElapsed >= self.timerLength {
+                self.playRingtone()
                 self.stopTimer()
             }
         }
@@ -150,4 +180,8 @@ class TimerObject {
         !(remainingTime != timerLength && !isTimerRunning && nextExerciseDisabled)
     }
     var nextExerciseDisabled: Bool { setsRemaining != 0 }
+    
+    func playRingtone() {
+        AudioServicesPlaySystemSound(ringtone.systemSoundID)
+    }
 }
